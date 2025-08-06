@@ -54,14 +54,19 @@
         <div class="row justify-content-center">
             @for (product of products; track $index) {
 
-            <div class="col-3 g-3">
-                <div class="card shadow h-100">
-                    <img [src]="product?.image" class="card-img-top p-4" alt="Product's picture">
+            <div class="col-3 g-5">
+                <div class="card shadow h-100" routerLink="/product/{{product.id}}">
+                    <img [src]="product?.image" class="card-img-top p-4 card-img" alt="Product's picture">
                     <div class="card-body">
                         <h5 class="card-title">{{product?.title}}</h5>
                         <h6 >{{product?.category}}</h6>
                         <p>{{product?.price}}</p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                        @if(product.rating.count > 0){
+                             <button href="#" class="btn btn-primary">Add to Cart</button>
+                        }@else {
+                            <button class="btn btn-primary" disabled>Out Of Stock</button>
+                        }
+                        
                     </div>
                 </div>
 

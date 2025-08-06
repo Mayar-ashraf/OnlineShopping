@@ -1,0 +1,10 @@
+.card:hover{
+    cursor: pointer;
+    box-shadow: 20px 20px 50px 15px lightgrey !important;
+    transition: transform 0.3s ease; /* Smooth zoom */
+    transform: scale(1.1); /* Zoom in */
+
+    z-index: 1;        
+
+}
+ 
