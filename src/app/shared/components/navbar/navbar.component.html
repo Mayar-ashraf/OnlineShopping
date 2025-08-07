@@ -1,6 +1,6 @@
 <nav class="navbar fixed-top navbar-expand-lg bg-body-tertiary shadow">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink='/home'>Navbar</a>
+    <a class="navbar-brand" routerLink='/home'>Shop</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -20,7 +20,7 @@
           </a>
           <ul class="dropdown-menu">
             @for (category of categories; track $index) {
-            <li><a class="dropdown-item" href="#">{{category.charAt(0).toUpperCase() + category.slice(1)}}</a></li>
+            <li><a class="dropdown-item" routerLink="/home/{{category}}">{{category.charAt(0).toUpperCase() + category.slice(1)}}</a></li>
             }
 
           </ul>
@@ -31,15 +31,13 @@
         <input class="form-control me-2" type="search" placeholder="What are you looking for?" aria-label="Search" />
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
-
       <a data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-        <i class="fa-solid fa-cart-shopping m-3 "></i>
+        <i class="cart fa-solid fa-cart-shopping m-3 "></i>
       </a>
-
-
     </div>
   </div>
 </nav>
+
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
   <div class="offcanvas-header">
     <h5 class="offcanvas-title" id="offcanvasRightLabel">Offcanvas right</h5>

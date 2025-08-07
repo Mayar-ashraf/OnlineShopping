@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductsService } from '../services/products.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-products-list',
@@ -14,7 +14,8 @@ import { RouterModule } from '@angular/router';
 })
 export class ProductsListComponent implements OnInit{
   products: any[] = [];
-  constructor(private productsService: ProductsService){
+  category: string = "";
+  constructor(private productsService: ProductsService, private route: ActivatedRoute){
 
   }
   ngOnInit(): void {
@@ -32,7 +33,18 @@ export class ProductsListComponent implements OnInit{
         console.log('Fetching data complete');
         
       }
-    })
+    });
+
+    this.route.params.subscribe((params) => {
+        if(params['category']){
+          console.log(params['category']);
+          this.category = params['category'];
+        }else{
+          this.category = "";
+        }
+        
+    });
+    
 
   }
 }

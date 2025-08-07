@@ -4,5 +4,6 @@ import { ProductsListComponent } from './features/products/products-list/product
 export const routes: Routes = [
     {path:'', redirectTo:'home', pathMatch:'full'},
     {path:'home', loadComponent:()=>import('./features/products/products-list/products-list.component').then(c=>c.ProductsListComponent)},
+    {path: 'home/:category', loadComponent:()=>import('./features/products/products-list/products-list.component').then(c=>c.ProductsListComponent)},
     {path:'product/:id', loadComponent:()=>import('./features/products/product-details/product-details.component').then(c=>c.ProductDetailsComponent)}
 ];
