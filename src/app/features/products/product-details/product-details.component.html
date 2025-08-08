@@ -7,11 +7,10 @@
             <div class="card-body">
                 <h3 class="card-title 0">{{productData?.title}}</h3> <hr>
                 @if(productData?.rating.count > 0){
-                <h5 class="text-success">In Stock</h5>
+                    <h5 class="text-success">In Stock</h5>
                 }@else {
-                <h5 class="text-danger">Out Of Stock</h5>
+                    <h5 class="text-danger">Out Of Stock</h5>
                 }
-
                 <p class="desc">{{productData?.description}}</p>
                 <button class="btn btn-primary">Add To Cart</button>
                 <button class="btn btn-primary">Buy Now</button>

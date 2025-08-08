@@ -1,6 +1,6 @@
 <nav class="navbar fixed-top navbar-expand-lg bg-body-tertiary shadow">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink='/home'>Shop</a>
+    <a class="navbar-brand" routerLink='/products' style="font-weight: bold;">Shop</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -13,36 +13,32 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Link</a>
         </li>
-        <!--Categories List-->
+      <!--Categories List-->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Category <i class="fa-solid fa-filter"></i>
+            {{selectedCategory}}<i class="fa-solid fa-filter"></i>
           </a>
           <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="/products" (click)="selectCategory('All Categories')">All Categories</a></li>
             @for (category of categories; track $index) {
-            <li><a class="dropdown-item" routerLink="/home/{{category}}">{{category.charAt(0).toUpperCase() + category.slice(1)}}</a></li>
+            <li><a class="dropdown-item" routerLink="/products/{{category}}" (click)="selectCategory(category)">{{category.charAt(0).toUpperCase() + category.slice(1)}}</a></li>
             }
-
           </ul>
         </li>
-        <!---->
+      <!---->
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="What are you looking for?" aria-label="Search" />
+      <form class="d-flex" role="search" (change)="search()">
+        <input class="form-control me-2" type="search" placeholder="What are you looking for?"  aria-label="Search" [(ngModel)]="searchText" name="searchText" />
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
-      <a data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-        <i class="cart fa-solid fa-cart-shopping m-3 "></i>
-      </a>
+
+      <!--CART'S OFFCANVA-->
+        <a data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+          
+          <i class="cart fa-solid fa-cart-shopping fa-lg m-3 mt-4"><span class="badge text-bg-primary rounded-pill small-badge">{{cartItemsCount}}</span></i>
+        </a>
+      <!---->
     </div>
   </div>
 </nav>
-
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasRightLabel">Offcanvas right</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-  </div>
-</div>
+<app-cart></app-cart>
