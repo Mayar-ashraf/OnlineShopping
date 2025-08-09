@@ -42,15 +42,11 @@ export class CartComponent implements OnInit, OnDestroy{
   increaseQuantity(product: CartItem){
     if(product.quantity < product.product.rating.count){
       this.cartService.increaseQuantity(product);
-      console.log(`Quantity of product: ${product.product.title} is now = ${product.quantity}`);
     }else{
       alert('Your reached max quantity for this product')
     }
   }
   decreaseQuantity(product: CartItem){
-  
     this.cartService.decreaseQuantity(product);
-    console.log(`Quantity of product: ${product.product.title} is now = ${product.quantity}`);
-
   }
 }

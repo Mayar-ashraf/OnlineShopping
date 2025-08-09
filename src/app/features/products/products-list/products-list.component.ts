@@ -55,7 +55,7 @@ export class ProductsListComponent implements OnInit, OnDestroy {
     });
 
     this.searchSub = this.searchService.getSearchText().subscribe(result => {
-      console.log('Search Result reached posts list componenet', result);
+      // console.log('Search Result reached posts list componenet', result);
       this.filterProductsBySearch(result);
     });
   }
@@ -63,7 +63,7 @@ export class ProductsListComponent implements OnInit, OnDestroy {
     this.listedProducts = this.products.filter(function (product) {
       return product?.category == category;
     });
-    console.log('Filtered products: ----> ', this.listedProducts);
+    // console.log('Filtered products: ----> ', this.listedProducts);
     this.updateLocalStorage();
   }
 
@@ -74,7 +74,7 @@ export class ProductsListComponent implements OnInit, OnDestroy {
       this.listedProducts = this.products.filter(product =>
         product?.category.toLowerCase().includes(text.toLowerCase()) || product?.description.toLowerCase().includes(text.toLowerCase()) || product?.title.toLowerCase().includes(text.toLowerCase())
       );
-      console.log("Searching by ", text);
+      // console.log("Searching by ", text);
     }
     this.updateLocalStorage();
   }

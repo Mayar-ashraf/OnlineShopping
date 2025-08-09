@@ -14,8 +14,7 @@ import { Router } from '@angular/router';
 export class CheckoutComponent implements OnInit{
   cartData : CartItem[] = [];  
   form: FormGroup;
-  constructor(private cartService: CartService, private router: Router
-  ){
+  constructor(private cartService: CartService, private router: Router){
     this.form = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(3),]),
       email: new FormControl('', [Validators.required, Validators.email]), 
@@ -36,27 +35,23 @@ export class CheckoutComponent implements OnInit{
       this.cartData = result;
     });
   }
-    increaseQuantity(product: CartItem){
+  increaseQuantity(product: CartItem){
       if(product.quantity < product.product.rating.count){
         this.cartService.increaseQuantity(product);
-        console.log(`Quantity of product: ${product.product.title} is now = ${product.quantity}`);
       }else{
         alert('Your reached max quantity for this product')
       }
+  }
+  decreaseQuantity(product: CartItem){
+    this.cartService.decreaseQuantity(product);
+  }
+  submitForm(){
+    if(this.form.valid){
+      console.log(this.form.value);  
+      this.cartService.clearCart();
+      this.router.navigate(['/products']); 
+    }else{
+      console.log('invalid:', this.form);
     }
-    decreaseQuantity(product: CartItem){
-    
-      this.cartService.decreaseQuantity(product);
-      console.log(`Quantity of product: ${product.product.title} is now = ${product.quantity}`);
-    }
-    submitForm(){
-      if(this.form.valid){
-        console.log(this.form.value);  
-         this.cartService.clearCart();
-         this.router.navigate(['/products']); 
-      }else{
-        console.log('invalid:', this.form);
-        
-      }
-    }
+  }
 }

@@ -55,11 +55,9 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if(this.routeSub){
       this.routeSub.unsubscribe();
-      // console.log('ngOnDestory Called from product details componenet for routeSub');
     }
     if(this.productSub){
       this.productSub.unsubscribe();
-      // console.log('ngOnDestroy Called from product details componenet for productSub'); 
     }
   }
   addToCart(){

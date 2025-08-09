@@ -51,11 +51,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if(this.categoriesSub){
       this.categoriesSub.unsubscribe();
-      // console.log('NavBar : ngOnDestroy CategoriesSub');
     }  
   }
   search(){
     this.seachService.setSearchText(this.searchText);
-    // console.log('searched button clicked, search data: ', this.searchText);
   }
 }

@@ -91,6 +91,5 @@ export class CartService {
     this.cart.next(updatedCart);
     this.totalCount.next(0);
     this.clearHistory();
-
   }
 }
