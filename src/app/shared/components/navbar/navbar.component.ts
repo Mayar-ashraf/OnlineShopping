@@ -29,41 +29,33 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.categoriesSub = this.productsService.getCategories().subscribe({
       next: (data)=>{
-        console.log('Categoriess>>> ', data);
         this.categories = data;
-        
       },
       error: (err)=>{
         console.error(err);
-        
       },
       complete: ()=>{
         console.log("Categories Retrieved from API Successfully");
-        
       }
     });
 
     this.cartSub =this.cartService.getProductsCount().subscribe(result=>{
-      console.log('Recived count at navbar: ', result);
+      // console.log('Recived count at navbar: ', result);
       this.cartItemsCount = result;
       
     });
   }
   selectCategory(category: string){
     this.selectedCategory = category.charAt(0).toUpperCase() + category.slice(1);
-    console.log(category);
-    console.log(this.selectedCategory);
   }
   ngOnDestroy(): void {
     if(this.categoriesSub){
       this.categoriesSub.unsubscribe();
-      console.log('NavBar : ngOnDestroy CategoriesSub');
+      // console.log('NavBar : ngOnDestroy CategoriesSub');
     }  
   }
   search(){
     this.seachService.setSearchText(this.searchText);
-    console.log('searched button clicked, search data: ', this.searchText);
-    
-
+    // console.log('searched button clicked, search data: ', this.searchText);
   }
 }

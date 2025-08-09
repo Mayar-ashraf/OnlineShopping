@@ -4,6 +4,7 @@ import { ProductsService } from '../services/products.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { CartService } from '../services/cart.service';
 
 
 @Component({
@@ -23,17 +24,16 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   routeSub !: Subscription;
   productSub !: Subscription;
 
-  constructor(private route: ActivatedRoute, private productsService: ProductsService) {
+  constructor(private route: ActivatedRoute, private productsService: ProductsService, private cartService: CartService) {
 
   }
   ngOnInit(): void {
-
     this.routeSub = this.route.params.subscribe((params) => {
       this.productId = +params['id'];
       this.getProduct(this.productId);
     });
-
   }
+
   getProduct(id: number) {
     this.productSub = this.productsService.getProduct(id).subscribe({
       next: (data) => {
@@ -55,12 +55,14 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if(this.routeSub){
       this.routeSub.unsubscribe();
-      console.log('ngOnDestory Called from product details componenet for routeSub');
+      // console.log('ngOnDestory Called from product details componenet for routeSub');
     }
     if(this.productSub){
       this.productSub.unsubscribe();
-      console.log('ngOnDestroy Called from product details componenet for productSub');
-      
+      // console.log('ngOnDestroy Called from product details componenet for productSub'); 
     }
+  }
+  addToCart(){
+    this.cartService.addToCart(this.productData);
   }
 }

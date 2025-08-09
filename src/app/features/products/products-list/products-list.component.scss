@@ -9,4 +9,17 @@
 .click:hover{
     cursor: pointer;
 }
- 
+.card-img{
+    width: 100%;          
+    height: 300px; 
+    object-fit: contain; 
+}
+.card{
+    height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+}
+.carousel {
+    margin-top: 50px;
+}

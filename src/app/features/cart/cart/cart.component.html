@@ -1,34 +1,46 @@
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasRightLabel">My Cart</h5>
+    <h2 class="offcanvas-title" id="offcanvasRightLabel">Cart</h2>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
+    @if (!cart.length) {
+    <div class="d-flex container justify-content-center">
+      <h3>Empty Cart! </h3><i class="fa-regular fa-face-frown fa-lg mt-3 p-1"></i>
+    </div>
+    }
     <div class="list-group">
-  <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">List group item heading</h5>
-      <small>3 days ago</small>
+      @for (product of cart; track $index) {
+      <div class="list-group-item list-group-item-action" aria-current="true">
+        <div class="d-flex w-100 justify-content-between row">
+          <img [src]="product?.product.image" class="mb-1 col-2">
+          <h5 class="mb-1 col-10">{{product?.product.title}}</h5>
+        </div>
+        <div class="row align-items-center text-center pt-3">
+          <div class="col-3">
+            <button class="btn btn-outline-secondary btn-sm rounded-circle" (click)="decreaseQuantity(product)">
+              <i class="fa-solid fa-minus"></i>
+            </button>
+          </div>
+          <div class="col-6">
+            <span style="font-size: 18px;" >Quantity: {{ product?.quantity }}</span>
+          </div>
+
+          <div class="col-3">
+            <button class="btn btn-outline-primary btn-sm rounded-circle" (click)="increaseQuantity(product)">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      }
     </div>
-    <p class="mb-1">Some placeholder content in a paragraph.</p>
-    <small>And some small print.</small>
-  </a>
-  <a href="#" class="list-group-item list-group-item-action">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">List group item heading</h5>
-      <small class="text-body-secondary">3 days ago</small>
-    </div>
-    <p class="mb-1">Some placeholder content in a paragraph.</p>
-    <small class="text-body-secondary">And some muted small print.</small>
-  </a>
-  <a href="#" class="list-group-item list-group-item-action">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">List group item heading</h5>
-      <small class="text-body-secondary">3 days ago</small>
-    </div>
-    <p class="mb-1">Some placeholder content in a paragraph.</p>
-    <small class="text-body-secondary">And some muted small print.</small>
-  </a>
-</div>
+    @if (cart.length) {
+      <div class="d-flex flex-column align-items-center">
+    <button class="btn btn-primary m-3 " routerLink="/checkout">Check Out</button>
+        </div>
+  }
+
   </div>
 </div>

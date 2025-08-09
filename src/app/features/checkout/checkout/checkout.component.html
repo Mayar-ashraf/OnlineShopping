@@ -1,1 +1,255 @@
-<p>checkout works!</p>
+<div class="d-flex flex-column align-items-center content">
+  @if (cartData.length) {
+
+
+  <h2>Check Out</h2>
+  <div class="list-group ">
+    @for (product of cartData; track $index) {
+    <div class="list-group-item list-group-item-action" aria-current="true">
+      <div class="d-flex w-90 justify-content-between justify-content-center row">
+        <img [src]="product?.product.image" class="mb-1 col-2">
+        <div class="col-10">
+          <h5 class="mb-1 col-10">{{product?.product.title}}</h5>
+          <div class="container mt-3 row">
+            <div class="row align-items-center text-center">
+              <div class="col-2">
+                <button class="btn btn-outline-secondary btn-sm rounded-circle" (click)="decreaseQuantity(product)">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+              </div>
+              <div class="col-3">
+                <span style="font-size: 18px;">Quantity: {{ product?.quantity }}</span>
+              </div>
+
+              <div class="col-2">
+                <button class="btn btn-outline-primary btn-sm rounded-circle" (click)="increaseQuantity(product)">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    }
+  </div>
+  <div class="container mt-4">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <form [formGroup]="form" class="row g-3" (ngSubmit)="submitForm()">
+          <div class="col-md-6">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" formControlName="name"
+              [ngClass]="{'invalid':form.get('name')?.touched && form.get('name')?.invalid}">
+            @if(form.get('name')?.touched && form.get('name')?.invalid){
+            @if(form.get('name')?.errors?.['required']){
+            <small class="text-danger">Name is Required.</small>
+            }
+            @if(form.get('name')?.errors?.['minlength']){
+            <small class="text-danger">Name must be at least 3 characters.</small>
+            }
+
+            }
+
+          </div>
+
+          <div class="col-md-6">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" formControlName="email"
+              [ngClass]="{'invalid':form.get('email')?.touched && form.get('email')?.invalid}">
+            @if(form.get('email')?.touched && form.get('email')?.invalid){
+            @if(form.get('email')?.errors?.['required']){
+            <small class="text-danger">Email is Required.</small>
+            }
+            @if(form.get('email')?.errors?.['email']){
+            <small class="text-danger">Email is invalid.</small>
+            }
+            }
+          </div>
+          <div class="col-12">
+            <label for="inputAddress" class="form-label">Address</label>
+            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St"
+              formControlName="address1"
+              [ngClass]="{'invalid':form.get('address1')?.touched && form.get('address1')?.invalid}">
+            @if(form.get('address1')?.touched && form.get('address1')?.invalid){
+            @if(form.get('address1')?.errors?.['required']){
+            <small class="text-danger">Address is Required.</small>
+            }
+            @if(form.get('address1')?.errors?.['minlength']){
+            <small class="text-danger">Address must be at least 7 characters.</small>
+            }
+            }
+          </div>
+          <div class="col-12">
+            <label for="inputAddress2" class="form-label">Address 2</label>
+            <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor"
+              formControlName="address2"
+              [ngClass]="{'invalid':form.get('address2')?.touched && form.get('address2')?.invalid}">
+            @if(form.get('address2')?.touched && form.get('address2')?.invalid){
+            @if(form.get('address2')?.errors?.['required']){
+            <small class="text-danger">Apartment and Floor numbers are required.</small>
+            }
+            }
+
+          </div>
+          <div class="col-md-6">
+            <label for="inputCity" class="form-label">City</label>
+            <input type="text" class="form-control" id="inputCity" formControlName="city"
+              [ngClass]="{'invalid':form.get('city')?.touched && form.get('city')?.invalid}">
+            @if(form.get('city')?.touched && form.get('city')?.invalid){
+              @if(form.get('city')?.errors?.['required']){
+              <small class="text-danger">City is required.</small>
+              }
+            }
+          </div>
+          <div class="col-md-4">
+            <label for="inputGovernorate" class="form-label">Governorate</label>
+            <select id="inputGovernorate" class="form-select" formControlName="state"
+              [ngClass]="{'invalid':form.get('state')?.touched && form.get('state')?.invalid}">
+              <option value="">Choose...</option>
+              <option>Alexandria</option>
+              <option>Aswan</option>
+              <option>Asyut</option>
+              <option>Beheira</option>
+              <option>Beni Suef</option>
+              <option>Cairo</option>
+              <option>Dakahlia</option>
+              <option>Damietta</option>
+              <option>Faiyum</option>
+              <option>Gharbia</option>
+              <option>Giza</option>
+              <option>Ismailia</option>
+              <option>Kafr El Sheikh</option>
+              <option>Luxor</option>
+              <option>Matruh</option>
+              <option>Minya</option>
+              <option>Monufia</option>
+              <option>New Valley</option>
+              <option>North Sinai</option>
+              <option>Port Said</option>
+              <option>Qalyubia</option>
+              <option>Qena</option>
+              <option>Red Sea</option>
+              <option>Sharqia</option>
+              <option>Sohag</option>
+              <option>South Sinai</option>
+              <option>Suez</option>
+
+            </select>
+            @if(form.get('state')?.touched && form.get('state')?.invalid){
+            @if(form.get('state')?.errors?.['required']){
+            <small class="text-danger">Governorate is required.</small>
+            }
+            }
+          </div>
+          <div class="col-md-2">
+            <label for="inputZip" class="form-label">Zip (Optional)</label>
+            <input type="text" class="form-control" id="inputZip" placeholder="1234" formControlName="zip">
+          </div>
+          <div class="input-group mb-3 row">
+
+            <div class="col-md-6">
+              <label for="payment" class="form-label">Payment Method</label>
+              <select id="inputGovernorate" class="form-select" formControlName="payment"
+                [ngClass]="{'invalid':form.get('payment')?.touched && form.get('payment')?.invalid}">
+                <option selected>Payment</option>
+                <option value="1">Cash</option>
+                <option value="2">Visa</option>
+              </select>
+              @if(form.get('payment')?.touched && form.get('payment')?.invalid){
+              @if(form.get('payment')?.errors?.['required']){
+              <small class="text-danger">Payment way is required.</small>
+              }
+              }
+            </div>
+            <div class="col-md-4">
+              <label for="cvv" class="form-label">CVV</label>
+              <input type="password" class="form-control" id="cvv" formControlName="cvv">
+              @if(form.get('cvv')?.touched && form.get('cvv')?.invalid){
+                  @if(form.get('cvv')?.errors?.['required']){
+                  <small class="text-danger">CVV is required.</small>
+                  }
+                  @if(form.get('cvv')?.errors?.['pattern']){
+                  <small class="text-danger">Please enter a valid CVV.</small>
+                  }
+                }
+            </div>
+
+
+            <div class="col-md-2">
+              <label for="expDate" class="form-label">Expiry Date</label>
+              <input type="text" class="form-control" id="expDate" placeholder="MM/YY" formControlName="expDate"
+                [ngClass]="{'invalid':form.get('expDate')?.touched && form.get('expDate')?.invalid}">
+              @if(form.get('expDate')?.touched && form.get('expDate')?.invalid){
+                @if(form.get('expDate')?.errors?.['required']){
+                <small class="text-danger">Expiry Date is required.</small>
+                }
+                @if(form.get('expDate')?.errors?.['pattern']){
+                  <small class="text-danger">Please enter a valid Expiry Date.</small>
+                  }   
+              }
+            </div>
+            <div class="input-group mb-3 row">
+              <div class="col-md-6">
+                <label for="cardNum" class="form-label">Card Number</label>
+                <input type="text" class="form-control" id="cardNum" formControlName="cardNum"
+                  [ngClass]="{'invalid':form.get('cardNum')?.touched && form.get('cardNum')?.invalid}">
+                @if(form.get('cardNum')?.touched && form.get('cardNum')?.invalid){
+                  @if(form.get('cardNum')?.errors?.['required']){
+                  <small class="text-danger">Card Number is required.</small>
+                  }  
+                  @if(form.get('cardNum')?.errors?.['pattern']){
+                    <small class="text-danger">Please enter a valid Card Number.</small>
+                    }  
+                }
+              </div>
+              <div class="col-md-6">
+                <label for="cardName" class="form-label">Cardholder Name</label>
+                <input type="text" class="form-control" id="cardName" formControlName="cardName"
+                  [ngClass]="{'invalid':form.get('cardName')?.touched && form.get('cardName')?.invalid}">
+                @if(form.get('cardName')?.touched && form.get('cardName')?.invalid){
+                  @if(form.get('cardName')?.errors?.['required']){
+                  <small class="text-danger">Card Number is required.</small>
+                  }
+                  @if(form.get('cardName')?.errors?.['pattern']){
+                    <small class="text-danger">Please enter a valid Card Name.</small>
+                    }  
+                     @if(form.get('cardName')?.errors?.['minlength']){
+                    <small class="text-danger">Name must be at least 7 characters</small>
+                    }  
+                }
+              </div>
+            </div>
+
+            <div class="col-12 d-flex justify-content-center">
+              <button type="submit" class="btn btn-primary mt-3 " data-bs-toggle="modal" data-bs-target="#exampleModal">Check Out</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+  @if (form.valid) {
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Success</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Order Placed Successfully!
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+  }@else{
+  <div class="d-flex container justify-content-center">
+    <h3>Empty Cart! </h3><i class="fa-regular fa-face-frown fa-lg mt-3 p-1"></i>
+  </div>
+  }
+
+</div>

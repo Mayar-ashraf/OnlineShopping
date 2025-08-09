@@ -1,6 +1,6 @@
 <nav class="navbar fixed-top navbar-expand-lg bg-body-tertiary shadow">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink='/products' style="font-weight: bold;">Shop</a>
+    <a class="navbar-brand" routerLink='/products' style="font-weight: bold;"><i class="fa-solid fa-basket-shopping"></i>Shop</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -8,12 +8,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-underline">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link" aria-current="page" routerLink="/products">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
+          <a class="nav-link" routerLink="/aboutUs">About Us</a>
         </li>
       <!--Categories List-->
+    
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             {{selectedCategory}}<i class="fa-solid fa-filter"></i>
@@ -25,11 +26,13 @@
             }
           </ul>
         </li>
+
+     
       <!---->
       </ul>
       <form class="d-flex" role="search" (change)="search()">
-        <input class="form-control me-2" type="search" placeholder="What are you looking for?"  aria-label="Search" [(ngModel)]="searchText" name="searchText" />
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <input class="form-control me-2 " style="width: 300px;" type="search" placeholder="What are you looking for?"  aria-label="Search" [(ngModel)]="searchText" name="searchText" />
+        <button class="btn btn-outline-primary " type="submit">Search</button>
       </form>
 
       <!--CART'S OFFCANVA-->
