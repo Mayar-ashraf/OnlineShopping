@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CartService } from '../../products/services/cart.service';
 import { Subscription } from 'rxjs';
 import { RouterModule } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 export interface CartItem {
   product: any; 
@@ -19,7 +20,7 @@ export class CartComponent implements OnInit, OnDestroy{
   cart : CartItem[] = [];
   cartSub !: Subscription;
 
-  constructor(private cartService: CartService){
+  constructor(private cartService: CartService, private toaster: ToastrService){
     console.log('Cart Component Constructor');
   }
   ngOnInit(): void {
@@ -48,5 +49,9 @@ export class CartComponent implements OnInit, OnDestroy{
   }
   decreaseQuantity(product: CartItem){
     this.cartService.decreaseQuantity(product);
+  }
+  removeItem(product: CartItem){
+    this.cartService.removeItem(product);
+    this.toaster.success(`Removed Product: ${product.product.title} from Cart!`, "Cart Updated!");
   }
 }

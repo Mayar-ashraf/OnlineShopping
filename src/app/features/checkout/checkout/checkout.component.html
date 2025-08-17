@@ -1,36 +1,12 @@
 <div class="d-flex flex-column align-items-center content">
   @if (cartData.length) {
-
-
-  <h2>Check Out</h2>
-  <div class="list-group ">
+  <h2 class="mb-3">Check Out</h2>
+  <div class="list-group">
     @for (product of cartData; track $index) {
     <div class="list-group-item list-group-item-action" aria-current="true">
-      <div class="d-flex w-90 justify-content-between justify-content-center row">
-        <img [src]="product?.product.image" class="mb-1 col-2">
-        <div class="col-10 row">
-          <h5 class="mb-1 col-9">{{product?.product.title}}</h5>
-          <button class="btn-close col-1"></button>
-          <div class="container mt-3 row">
-            <div class="row align-items-center text-center">
-              <div class="col-2">
-                <button class="btn btn-outline-secondary btn-sm rounded-circle" (click)="decreaseQuantity(product)">
-                  <i class="fa-solid fa-minus"></i>
-                </button>
-              </div>
-              <div class="col-3">
-                <span style="font-size: 18px;">Quantity: {{ product?.quantity }}</span>
-              </div>
-
-              <div class="col-2">
-                <button class="btn btn-outline-primary btn-sm rounded-circle" (click)="increaseQuantity(product)">
-                  <i class="fa-solid fa-plus"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
+      <div class="d-flex w-40 justify-content-center row">
+        <img [src]="product?.product.image" class="mb-1 col-1">
+        <h5 class="mb-1 col-9">{{product?.product.title}}</h5>
       </div>
     </div>
     }

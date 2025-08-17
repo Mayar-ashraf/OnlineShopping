@@ -8,5 +8,6 @@ export const routes: Routes = [
     {path:'product/:id', loadComponent:()=>import('./features/products/product-details/product-details.component').then(c=>c.ProductDetailsComponent)},
     {path:'checkout', loadComponent:()=>import('./features/checkout/checkout/checkout.component').then(c=>c.CheckoutComponent)},
     {path:'aboutUs', loadComponent:()=>import('./shared/components/aboutus/aboutus.component').then(c=>c.AboutusComponent)},
+    {path:'cart', loadComponent:()=>import('./features/cart/cart/cart.component').then(c=>c.CartComponent)},
     {path: '**', loadComponent:()=>import('./shared/components/notfoundpage/notfoundpage.component').then(c=>c.NotfoundpageComponent)}
 ];

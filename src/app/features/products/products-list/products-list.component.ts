@@ -82,9 +82,7 @@ export class ProductsListComponent implements OnInit, OnDestroy {
 
   addToCart(product: any): void {
     this.cartService.addToCart(product);
-    this.toaster.success(`${product.title} added to cart!`, 'Cart Updated!',{
-
-    });
+    this.toaster.success(`${product.title} added to cart!`, 'Cart Updated!');
   }
   ngOnDestroy(): void {
     if (this.productsSub) {

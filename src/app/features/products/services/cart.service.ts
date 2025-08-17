@@ -96,4 +96,11 @@ export class CartService {
     this.totalCount.next(0);
     this.clearHistory();
   }
+  removeItem(item:CartItem){
+    console.log('remove from Cart Service');
+    let updatedCart = this.cart.value.filter(pdt => pdt?.product.id != item?.product.id );
+    let updatedCount = this.totalCount.value - item?.quantity;
+    this.cart.next(updatedCart);
+    this.totalCount.next(updatedCount);
+  }
 }
