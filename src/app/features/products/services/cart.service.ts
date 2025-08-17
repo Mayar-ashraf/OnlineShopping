@@ -14,14 +14,18 @@ export class CartService {
   cart = new BehaviorSubject<CartItem[]>([]);
   totalCount = new BehaviorSubject<number>(0);
   history = new BehaviorSubject<string | null>(localStorage.getItem('cartHistory'));
+
   constructor() {
+
     const savedCart = localStorage.getItem('cartHistory');
     if (savedCart) {
       const parsedCart : CartItem[] = JSON.parse(savedCart);
       this.cart.next(parsedCart);
+
       // Calculate totalCount from parsedCart
       const count = parsedCart.reduce((acc, item) => acc + item.quantity, 0);
       this.totalCount.next(count);
+      
       this.history.next(savedCart);
     }
 }

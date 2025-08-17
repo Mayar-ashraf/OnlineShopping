@@ -6,12 +6,13 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CartService } from '../services/cart.service';
 import { SearchService } from '../services/search.service';
-import { TestBed } from '@angular/core/testing';
+import { PaginationComponent } from "./pagination/pagination.component";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-products-list',
   standalone: true,
-  imports: [HttpClientModule, CommonModule, RouterModule],
+  imports: [HttpClientModule, CommonModule, RouterModule, PaginationComponent],
   templateUrl: './products-list.component.html',
   styleUrl: './products-list.component.scss',
   providers: [ProductsService]
@@ -26,9 +27,9 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   listedProducts: any[] = [];
   listKey: string = 'productsList';
 
-  constructor(private productsService: ProductsService, private route: ActivatedRoute, private cartService: CartService, private searchService: SearchService) {
-
-  }
+  productsPerPage = 6;
+  currentPage = 1;
+  constructor(private productsService: ProductsService, private route: ActivatedRoute, private cartService: CartService, private searchService: SearchService, private toaster: ToastrService) { }
   ngOnInit(): void {
     this.productsSub = this.productsService.getProducts().subscribe({
       next: (data) => {
@@ -79,8 +80,11 @@ export class ProductsListComponent implements OnInit, OnDestroy {
     this.updateLocalStorage();
   }
 
-  addToCart(product: object): void {
+  addToCart(product: any): void {
     this.cartService.addToCart(product);
+    this.toaster.success(`${product.title} added to cart!`, 'Cart Updated!',{
+
+    });
   }
   ngOnDestroy(): void {
     if (this.productsSub) {
@@ -95,5 +99,14 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   updateLocalStorage() {
     localStorage.setItem(this.listKey, JSON.stringify(this.listedProducts));
     console.log("Local Storage Updated successfully");
+  }
+  changePage(page: number){
+    this.currentPage = page;
+  }
+
+  get paginatedData(){
+    const start = (this.currentPage - 1) * this.productsPerPage;
+    const end = start + this.productsPerPage;
+    return this.listedProducts.slice(start, end);
   }
 }

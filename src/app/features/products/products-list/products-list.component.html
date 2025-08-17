@@ -50,11 +50,11 @@ src="https://images.unsplash.com/photo-1612703769284-0103b1e5ef70?q=80&w=1170&au
         </button>
     </div>
     <!--CAROUSEL-->   
-
+    
      <div class="mt-5">
         <div class="row justify-content-center">
-            @for (product of listedProducts; track $index) {
-                <div class="col-3 mb-5 g-5">
+            @for (product of paginatedData; track $index) {
+                <div class="col-4 mb-5 g-5">
                     <div class="card shadow h-100">
                         <a routerLink="/product/{{product.id}}">
                             <img [src]="product?.image" class="card-img-top p-4 card-img" alt="Product's picture">
@@ -78,4 +78,5 @@ src="https://images.unsplash.com/photo-1612703769284-0103b1e5ef70?q=80&w=1170&au
             }
         </div>
     </div>
+    <app-pagination [totalProducts]="listedProducts.length" [productsPerPage]="productsPerPage" [currentPage]="currentPage" (onClick)="changePage($event)"></app-pagination>
 </div>

@@ -1,0 +1,19 @@
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center pagination-lg">
+    <li class="page-item" [ngClass]="{disabled: currentPage == 1}">
+      <a class="page-link" (click)="pageClicked(currentPage - 1)" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    @for (page of pages; track $index) {
+      <li class="page-item" [ngClass]="{'active': page == currentPage}" (click)="pageClicked(page)">
+        <a class="page-link">{{page}}</a>
+      </li>
+    }   
+    <li class="page-item" [ngClass]="{disabled: currentPage == totalPages}">
+      <a class="page-link" (click)="pageClicked(currentPage + 1)" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>

@@ -8,9 +8,7 @@ import { Observable } from 'rxjs';
 export class ProductsService {
   productsUrl = 'https://fakestoreapi.com/products';
   categoriesUrl = 'https://fakestoreapi.com/products/categories';
-  constructor(private http: HttpClient) {
-    
-   }
+  constructor(private http: HttpClient) { }
   getProducts() : Observable<any>{
     return this.http.get(this.productsUrl);
   }

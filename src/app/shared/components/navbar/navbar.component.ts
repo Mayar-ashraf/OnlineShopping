@@ -40,7 +40,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     });
 
     this.cartSub =this.cartService.getProductsCount().subscribe(result=>{
-      // console.log('Recived count at navbar: ', result);
+      
       this.cartItemsCount = result;
       
     });

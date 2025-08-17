@@ -24,7 +24,7 @@ export class CartComponent implements OnInit, OnDestroy{
   }
   ngOnInit(): void {
     this.cartService.getCart().subscribe(result =>{
-      console.log('From Cart Component :', result);
+      // console.log('From Cart Component :', result);
       this.cart = result;
     });
 
