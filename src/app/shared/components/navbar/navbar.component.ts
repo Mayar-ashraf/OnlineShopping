@@ -12,45 +12,26 @@ import { CartService } from '../../../features/products/services/cart.service';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterModule, HttpClientModule, CommonModule, CartComponent, FormsModule],
+  imports: [RouterModule, HttpClientModule, CommonModule, FormsModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss', 
   providers: [ProductsService]
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   categories : any[] = [];
-  selectedCategory: string = "All Categories";
-  categoriesSub !: Subscription;
   cartSub !: Subscription;
   searchText: string = '';
   cartItemsCount : number = 0;
-  constructor(private productsService: ProductsService, private seachService:SearchService, private cartService: CartService){ }
+  constructor( private seachService:SearchService, private cartService: CartService){ }
 
   ngOnInit(): void {
-    this.categoriesSub = this.productsService.getCategories().subscribe({
-      next: (data)=>{
-        this.categories = data;
-      },
-      error: (err)=>{
-        console.error(err);
-      },
-      complete: ()=>{
-        console.log("Categories Retrieved from API Successfully");
-      }
-    });
-
     this.cartSub =this.cartService.getProductsCount().subscribe(result=>{
-      
       this.cartItemsCount = result;
-      
     });
-  }
-  selectCategory(category: string){
-    this.selectedCategory = category.charAt(0).toUpperCase() + category.slice(1);
   }
   ngOnDestroy(): void {
-    if(this.categoriesSub){
-      this.categoriesSub.unsubscribe();
+    if(this.cartSub){
+      this.cartSub.unsubscribe();
     }  
   }
   search(){

@@ -49,33 +49,63 @@ src="https://images.unsplash.com/photo-1612703769284-0103b1e5ef70?q=80&w=1170&au
             <span class="visually-hidden">Next</span>
         </button>
     </div>
-    <!--CAROUSEL-->   
-     <div class="mt-5">
-        <div class="row justify-content-center">
-            @for (product of paginatedData; track $index) {
-                <div class="col-4 mb-5 g-5">
-                    <div class="card shadow h-100">
-                        <a routerLink="/product/{{product.id}}">
-                            <img [src]="product?.image" class="card-img-top p-4 card-img" alt="Product's picture">
-                        </a>
-                        <div class="card-body">
-                            <div class="click" routerLink="/product/{{product.id}}">
-                                <h5 class="card-title">{{product?.title}}</h5>
-                                <h6>{{product?.category}}</h6>
-                                <p>{{product?.price | currency:'USD'}}</p>
-                            </div>
-                            <div class="d-flex flex-column align-items-center">
-                            @if(product.rating.count > 0){
-                            <button href="#" class="btn btn-primary" (click)="addToCart(product)">Add to Cart</button>
-                            }@else {
-                            <button class="btn btn-primary" disabled>Out Of Stock</button>
-                            }  
-                            </div>
+    <!--CAROUSEL-->
+    <div class="position-relative">
+        <div class="dropdown d-flex position-absolute top-0 start-5 translate-middle" style="margin-top: 30px; margin-left: 150px;">
+            <button class="btn btn-light btn-lg dropdown-toggle border mt-4" style="margin-right: 10px; margin-left: 10px;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Filter<i class="fa-solid fa-filter"></i>
+            </button>
+            @if (category) {
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-dark mt-4 rounded-5"> <button type="button" class="btn-close" aria-label="Close" style="width: 5px; height: 5px; margin-right: 5px; margin-bottom: 5px;" (click)="resetCategory()" routerLink="/products"></button>{{category}}</li>
+                </ul>
+            }
+            <ul class="dropdown-menu">
+                @for (category of categories; track $index) {
+                    <li><a class="dropdown-item" routerLink="/products/{{category}}" >{{category.charAt(0).toUpperCase() + category.slice(1)}}</a></li>
+                }
+            </ul>
+        </div>
+       
+        <div class="dropdown position-absolute top-0 start-100 translate-middle">
+            <button class="btn btn-light btn-lg dropdown-toggle border" style="margin-right:250px; margin-top: 75px;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{featureName}}
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" (click)="setFeature('default', 'Featured')" [ngClass]="{'active': feature === 'default'}">Featured</a></li>
+                <li><a class="dropdown-item" (click)="setFeature('alphAsc', 'Alphabetically, A-Z')" [ngClass]="{'active': feature === 'alphAsc'}">Alphabetically, A-Z</a></li>
+                <li><a class="dropdown-item" (click)="setFeature('alphDesc', 'Alphabetically, Z-A')" [ngClass]="{'active': feature === 'alphDesc'}">Alphabetically, Z-A</a></li>
+                <li><a class="dropdown-item" (click)="setFeature('asc', 'Price, low to high')" [ngClass]="{'active': feature === 'asc'}">Price, low to high</a></li>
+                <li><a class="dropdown-item" (click)="setFeature('desc', 'Price, high to low')" [ngClass]="{'active': feature === 'desc'}">Price, high to low</a></li>
+                
+            </ul>
+        </div>
+     </div>
+    <div class="row justify-content-center mt-5">
+        @for (product of paginatedData; track $index) {
+            <div class="col-4 mb-5 g-5">
+                <div class="card shadow h-100">
+                    <a routerLink="/product/{{product.id}}">
+                        <img [src]="product?.image" class="card-img-top p-4 card-img" alt="Product's picture">
+                    </a>
+                    <div class="card-body">
+                        <div class="click" routerLink="/product/{{product.id}}">
+                            <h5 class="card-title">{{product?.title}}</h5>
+                            <h6>{{product?.category}}</h6>
+                            <p>{{product?.price | currency:'USD'}}</p>
+                        </div>
+                        <div class="d-flex flex-column align-items-center">
+                        @if(product.rating.count > 0){
+                        <button href="#" class="btn btn-primary" (click)="addToCart(product)">Add to Cart</button>
+                        }@else {
+                        <button class="btn btn-primary" disabled>Out Of Stock</button>
+                        }  
                         </div>
                     </div>
                 </div>
-            }
-        </div>
+            </div>
+        }
     </div>
+    
     <app-pagination [totalProducts]="listedProducts.length" [productsPerPage]="productsPerPage" [currentPage]="currentPage" (onClick)="changePage($event)"></app-pagination>
 </div>

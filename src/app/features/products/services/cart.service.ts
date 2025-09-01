@@ -13,6 +13,7 @@ export class CartService {
 
   cart = new BehaviorSubject<CartItem[]>([]);
   totalCount = new BehaviorSubject<number>(0);
+  totalCost = new BehaviorSubject<number>(0);
   history = new BehaviorSubject<string | null>(localStorage.getItem('cartHistory'));
 
   constructor() {
@@ -24,11 +25,13 @@ export class CartService {
 
       // Calculate totalCount from parsedCart
       const count = parsedCart.reduce((acc, item) => acc + item.quantity, 0);
-      this.totalCount.next(count);
+      const cost = parsedCart.reduce((acc, item)=> acc + (item.quantity * item.product.price), 0);
       
+      this.totalCount.next(count);
+      this.totalCost.next(cost);
       this.history.next(savedCart);
     }
-}
+  }
   addToCart(product: any) {
     const index = this.cart.value.findIndex(item => item.product.id === product.id);
     if (index >= 0) {
@@ -39,6 +42,7 @@ export class CartService {
       this.cart.next([...this.cart.value, { product, quantity: 1 }]);
     }
     this.totalCount.next(this.totalCount.value + 1);
+    this.totalCost.next(this.totalCost.value + product.price);
     this.updateHistory(JSON.stringify(this.cart.value));
   }
 
@@ -52,6 +56,10 @@ export class CartService {
 
   getCartHistory(): Observable<string | null>{
     return this.history.asObservable();
+  }
+
+  getTotalCost(): Observable<number>{
+    return this.totalCost.asObservable();
   }
 
   updateHistory(newHistory: string) {
@@ -68,7 +76,7 @@ export class CartService {
     console.log('decreaseQuantity from Cart Service');
     let updatedCart;
     let updatedCount = this.totalCount.value - 1;
-
+    let updatedCost = this.totalCost.value - item.product.price;
     if(item.quantity > 1){
 
       updatedCart = this.cart.value.map(pdt=> pdt?.product.id == item?.product.id ? { ...pdt, quantity: pdt.quantity - 1 } : pdt); 
@@ -79,28 +87,34 @@ export class CartService {
 
     this.cart.next(updatedCart);
     this.totalCount.next(updatedCount);
+    this.totalCost.next(updatedCost);
     this.updateHistory(JSON.stringify(this.cart.value));
     
   }
   increaseQuantity(item: CartItem) {
     let updatedCart = this.cart.value.map(pdt=> pdt?.product.id == item?.product.id ? { ...pdt, quantity: pdt.quantity + 1 } : pdt);
     let updatedCount = this.totalCount.value + 1;
+    let updatedCost = this.totalCost.value + item?.product.price;
 
     this.cart.next(updatedCart);
     this.totalCount.next(updatedCount);
+    this.totalCost.next(updatedCost);
     this.updateHistory(JSON.stringify(this.cart.value));
   }
   clearCart(){
     let updatedCart : [] = [];
     this.cart.next(updatedCart);
     this.totalCount.next(0);
+    this.totalCost.next(0);
     this.clearHistory();
   }
   removeItem(item:CartItem){
     console.log('remove from Cart Service');
     let updatedCart = this.cart.value.filter(pdt => pdt?.product.id != item?.product.id );
     let updatedCount = this.totalCount.value - item?.quantity;
+    let updatedCost = this.totalCost.value - (item?.product.price * item?.quantity);
     this.cart.next(updatedCart);
     this.totalCount.next(updatedCount);
+    this.totalCost.next(updatedCost);
   }
 }

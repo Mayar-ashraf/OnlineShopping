@@ -20,13 +20,16 @@ import { ToastrService } from 'ngx-toastr';
 export class ProductsListComponent implements OnInit, OnDestroy {
 
   products: any[] = [];
+  categories : any[] = [];
   category: string = "";
   productsSub !: Subscription;
   routeSub !: Subscription;
   searchSub !: Subscription;
+  categoriesSub !: Subscription;
   listedProducts: any[] = [];
   listKey: string = 'productsList';
-
+  feature: string = 'default';
+  featureName : string = 'Featured';
   productsPerPage = 6;
   currentPage = 1;
   constructor(private productsService: ProductsService, private route: ActivatedRoute, private cartService: CartService, private searchService: SearchService, private toaster: ToastrService) { }
@@ -34,16 +37,16 @@ export class ProductsListComponent implements OnInit, OnDestroy {
     this.productsSub = this.productsService.getProducts().subscribe({
       next: (data) => {
         this.products = data;
+        this.listedProducts = data;
 
         this.routeSub = this.route.params.subscribe((params) => {
           if (params['category']) {
             this.category = params['category'];
+            console.log(this.category);
+            
             this.filterProductsByCategory(this.category);
-          } else {
-            this.listedProducts = this.products;
           }
         });
-      
       },
       error: (err) => {
         console.error(err);
@@ -51,7 +54,6 @@ export class ProductsListComponent implements OnInit, OnDestroy {
       },
       complete: () => {
         console.log('Fetching data complete');
-
       }
     });
 
@@ -59,23 +61,36 @@ export class ProductsListComponent implements OnInit, OnDestroy {
       // console.log('Search Result reached posts list componenet', result);
       this.filterProductsBySearch(result);
     });
+    
+    this.categoriesSub = this.productsService.getCategories().subscribe({
+      next: (data)=>{
+        this.categories = data;
+      },
+      error: (err)=>{
+        console.error(err);
+      },
+      complete: ()=>{
+        console.log("Categories Retrieved from API Successfully");
+      }
+    });
   }
+
   filterProductsByCategory(category: string) {
     this.listedProducts = this.products.filter(function (product) {
       return product?.category == category;
     });
-    // console.log('Filtered products: ----> ', this.listedProducts);
+    this.setFeature(this.feature, this.featureName);
     this.updateLocalStorage();
   }
 
   filterProductsBySearch(text: String) {
     if (!text) {
-      this.listedProducts = this.products
+      this.listedProducts = this.category? this.products.filter(p => p.category === this.category)
+        : [...this.products];
     } else {
-      this.listedProducts = this.products.filter(product =>
+      this.listedProducts = this.listedProducts.filter(product =>
         product?.category.toLowerCase().includes(text.toLowerCase()) || product?.description.toLowerCase().includes(text.toLowerCase()) || product?.title.toLowerCase().includes(text.toLowerCase())
       );
-      // console.log("Searching by ", text);
     }
     this.updateLocalStorage();
   }
@@ -87,11 +102,12 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.productsSub) {
       this.productsSub.unsubscribe();
-      // console.log('ngOnDestroy called for productsSub'); 
     }
     if (this.routeSub) {
       this.routeSub.unsubscribe();
-      // console.log('ngOnDestroy called for routeSub'); 
+    }
+    if(this.categoriesSub){
+      this.categoriesSub.unsubscribe();
     }
   }
   updateLocalStorage() {
@@ -106,5 +122,32 @@ export class ProductsListComponent implements OnInit, OnDestroy {
     const start = (this.currentPage - 1) * this.productsPerPage;
     const end = start + this.productsPerPage;
     return this.listedProducts.slice(start, end);
+  }
+  resetCategory(){
+    this.category = "";
+    this.setFeature("default", "Featured");
+  }
+  setFeature(feature: string, featureName: string){
+    this.feature = feature;
+    this.featureName = featureName;
+    switch(feature){
+      case 'default':
+        this.listedProducts = this.category? this.products.filter(p => p.category === this.category)
+        : [...this.products];
+        break;
+      case 'alphAsc':
+        this.listedProducts.sort((a,b) => a.title.localeCompare(b.title));
+        break;
+
+      case 'alphDesc':
+        this.listedProducts.sort( (a,b) => b.title.localeCompare(a.title));
+        break;
+      case 'asc':
+        this.listedProducts.sort ((a,b)=> a.price - b.price);
+        break;
+      case 'desc':
+        this.listedProducts.sort ((a,b)=> b.price - a.price);
+        break;
+    }
   }
 }

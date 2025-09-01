@@ -3,6 +3,7 @@ import { CartService } from '../../products/services/cart.service';
 import { Subscription } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
 
 export interface CartItem {
   product: any; 
@@ -12,14 +13,15 @@ export interface CartItem {
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })
 export class CartComponent implements OnInit, OnDestroy{
   cart : CartItem[] = [];
   cartSub !: Subscription;
-
+  totalCost : number = 0;
+  
   constructor(private cartService: CartService, private toaster: ToastrService){
     console.log('Cart Component Constructor');
   }
@@ -33,6 +35,10 @@ export class CartComponent implements OnInit, OnDestroy{
       if(!this.cart && result){
         this.cart = JSON.parse(result);
       }
+    });
+
+    this.cartService.getTotalCost().subscribe(result =>{
+      this.totalCost = result;
     })
   }
   ngOnDestroy(): void {

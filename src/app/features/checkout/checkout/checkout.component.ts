@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class CheckoutComponent implements OnInit{
   cartData : CartItem[] = [];  
+  totalCost: number = 0;
   form: FormGroup;
   constructor(private cartService: CartService, private router: Router){
     this.form = new FormGroup({
@@ -34,7 +35,30 @@ export class CheckoutComponent implements OnInit{
     this.cartService.getCart().subscribe(result=>{
       this.cartData = result;
     });
-  }
+    this.cartService.getTotalCost().subscribe(result=>{
+      this.totalCost = result;
+    });
+
+ 
+  this.form.get('payment')?.valueChanges.subscribe(value => {
+    const cvvControl = this.form.get('cvv');
+    const expDateControl = this.form.get('expDate');
+    const cardNumControl = this.form.get('cardNum');
+    const cardNameControl = this.form.get('cardName');
+
+    if (value === '1') { // Cash
+      cvvControl?.disable();
+      expDateControl?.disable();
+      cardNumControl?.disable();
+      cardNameControl?.disable();
+    } else { // Visa
+      cvvControl?.enable();
+      expDateControl?.enable();
+      cardNumControl?.enable();
+      cardNameControl?.enable();
+    }
+  });
+}
   increaseQuantity(product: CartItem){
       if(product.quantity < product.product.rating.count){
         this.cartService.increaseQuantity(product);

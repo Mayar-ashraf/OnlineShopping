@@ -23,3 +23,9 @@
 .carousel {
     margin-top: 50px;
 }
+.dropdown-item:hover{
+    cursor: pointer;
+}
+.dropdown {
+  z-index: 1000;
+}
